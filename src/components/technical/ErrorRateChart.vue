@@ -4,7 +4,7 @@
       <ion-card-title>Tasa de Errores por Versión</ion-card-title>
       <ion-card-subtitle>Gráfico personalizado sin librerías</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="chart-content">
       <div class="canvas-container">
         <canvas ref="chartCanvas" width="800" height="400"></canvas>
         <div v-if="hoveredVersion" class="tooltip" :style="tooltipStyle">
@@ -53,8 +53,9 @@ const drawChart = () => {
   const width = canvas.width;
   const height = canvas.height;
   
-  // Limpiar el canvas
-  ctx.clearRect(0, 0, width, height);
+  // Limpiar el canvas con fondo blanco
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, width, height);
   
   // Configuración del gráfico
   const padding = { top: 20, right: 30, bottom: 40, left: 60 };
@@ -277,16 +278,26 @@ onMounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
-ion-card-content {
-  height: 300px;
+.chart-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: #ffffff;
 }
 
 .canvas-container {
   position: relative;
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
+  flex: 1;
+  min-height: 0;
 }
 
 canvas {
@@ -295,6 +306,7 @@ canvas {
   left: 0;
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
 }
 
 .tooltip {

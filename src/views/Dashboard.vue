@@ -7,7 +7,7 @@
         </ion-buttons>
         <ion-title>
           <div class="title-container">
-            <span>Dashboard de Negocio</span>
+            <span>Dashboard de Negocio - QBid FP</span>
           </div>
         </ion-title>
         <ion-buttons slot="end">
@@ -21,27 +21,27 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content>
+    <ion-content class="dashboard-content">
       <div class="dashboard-container">
-        <ion-grid class="ion-no-padding">
-          <ion-row class="ion-padding">
-            <ion-col size="12" size-md="6" class="ion-padding-horizontal ion-padding-bottom">
-              <BookingsLineChart />
+        <ion-grid class="dashboard-grid">
+          <ion-row class="dashboard-row">
+            <ion-col size="12" size-md="6" class="chart-col">
+              <PracticesEvolutionChart />
             </ion-col>
-            <ion-col size="12" size-md="6" class="ion-padding-horizontal ion-padding-bottom">
-              <RevenueColumnChart />
+            <ion-col size="12" size-md="6" class="chart-col">
+              <CompanyOffersChart />
             </ion-col>
           </ion-row>
           
-          <ion-row class="ion-padding">
-            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
-              <PaymentMethodsPieChart />
+          <ion-row class="dashboard-row">
+            <ion-col size="12" size-md="4" class="chart-col">
+              <StudentDistributionChart />
             </ion-col>
-            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
-              <RealtimeUsersChart />
+            <ion-col size="12" size-md="4" class="chart-col">
+              <ActiveUsersChart />
             </ion-col>
-            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
-              <SearchHeatmapChart />
+            <ion-col size="12" size-md="4" class="chart-col">
+              <SupportRequestsHeatmap />
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -53,16 +53,26 @@
 <script setup>
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonButtons, IonButton, IonIcon, IonMenuButton } from '@ionic/vue';
 import { notificationsOutline, personCircleOutline } from 'ionicons/icons';
-import BookingsLineChart from '../components/BookingsLineChart.vue';
-import RevenueColumnChart from '../components/RevenueColumnChart.vue';
-import PaymentMethodsPieChart from '../components/PaymentMethodsPieChart.vue';
-import RealtimeUsersChart from '../components/RealTimeUsersChart.vue';
-import SearchHeatmapChart from '../components/SearchHeatmapChart.vue';
+import PracticesEvolutionChart from '../components/PracticesEvolutionChart.vue';
+import CompanyOffersChart from '../components/CompanyOffersChart.vue';
+import StudentDistributionChart from '../components/StudentDistributionChart.vue';
+import ActiveUsersChart from '../components/ActiveUsersChart.vue';
+import SupportRequestsHeatmap from '../components/SupportRequestsHeatmap.vue';
 </script>
 
 <style scoped>
-ion-content {
-  --background: #f5f7fa;
+ion-page {
+  --background: #ffffff !important;
+}
+
+.dashboard-content {
+  --background: #ffffff !important;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 ion-toolbar {
@@ -77,26 +87,65 @@ ion-toolbar {
 }
 
 .dashboard-container {
-  max-width: 1600px;
-  margin: 0 auto;
-}
-
-ion-grid {
   height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+  overflow: hidden;
 }
 
-ion-row {
+.dashboard-grid {
+  height: 100%;
   margin: 0;
-}
-
-ion-col {
+  padding: 8px;
   display: flex;
   flex-direction: column;
 }
 
+.dashboard-row {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 0;
+}
+
+.chart-col {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
 @media (max-width: 768px) {
-  ion-col {
-    padding: 8px;
+  .dashboard-grid {
+    padding: 4px;
+  }
+  
+  .chart-col {
+    padding: 2px;
+  }
+  
+  .dashboard-row {
+    flex-direction: column;
+  }
+  
+  .dashboard-row:first-child {
+    flex: 1.2;
+  }
+  
+  .dashboard-row:last-child {
+    flex: 1.8;
+  }
+}
+
+@media (min-width: 769px) {
+  .dashboard-row:first-child {
+    flex: 1;
+  }
+  
+  .dashboard-row:last-child {
+    flex: 1;
   }
 }
 </style>

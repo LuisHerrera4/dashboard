@@ -4,7 +4,7 @@
       <ion-card-title>Métodos de Pago</ion-card-title>
       <ion-card-subtitle>Distribución de transacciones</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="chart-content">
       <div ref="chartContainer" class="chart-container"></div>
     </ion-card-content>
   </ion-card>
@@ -33,13 +33,16 @@ const paymentData = [
 ];
 
 onMounted(() => {
-  chart = echarts.init(chartContainer.value);
+  chart = echarts.init(chartContainer.value, null, {
+    backgroundColor: '#ffffff'
+  });
   
   const option = {
+    backgroundColor: '#ffffff',
     tooltip: {
       trigger: 'item',
       formatter: '{b}: {c}% ({d}%)',
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      backgroundColor: 'rgba(255, 255, 255, 0.95)',
       borderColor: '#ffcc00',
       borderWidth: 1,
       textStyle: {
@@ -48,46 +51,51 @@ onMounted(() => {
     },
     legend: {
       orient: 'vertical',
-      right: '5%',
+      right: '10%',
       top: 'center',
       data: paymentData.map(item => item.name),
       textStyle: {
-        color: '#666',
-        fontSize: 12
+        color: '#333',
+        fontSize: 11
       },
-      itemWidth: 10,
-      itemHeight: 10,
-      itemGap: 10
+      itemWidth: 12,
+      itemHeight: 12,
+      itemGap: 8,
+      backgroundColor: '#ffffff'
     },
     series: [
       {
         name: 'Métodos de Pago',
         type: 'pie',
-        radius: ['40%', '70%'],
-        center: ['40%', '50%'],
+        radius: ['35%', '65%'],
+        center: ['35%', '50%'],
         avoidLabelOverlap: false,
         itemStyle: {
-          borderRadius: 10,
-          borderColor: '#fff',
+          borderRadius: 8,
+          borderColor: '#ffffff',
           borderWidth: 2
         },
         label: {
-          show: false,
-          position: 'center'
+          show: false
         },
         emphasis: {
           label: {
             show: true,
-            fontSize: '18',
+            fontSize: '14',
             fontWeight: 'bold',
             color: '#333'
+          },
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.2)'
           }
         },
         labelLine: {
           show: false
         },
         data: paymentData,
-        color: ['#ffcc00', '#999999', '#666666', '#333333', '#cccccc']
+        color: ['#ffcc00', '#ff9f43', '#ee5253', '#0abde3', '#10ac84']
       }
     ]
   };
@@ -122,14 +130,24 @@ onMounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
-ion-card-content {
-  height: 300px;
+.chart-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: #ffffff;
 }
 
 .chart-container {
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
+  flex: 1;
+  min-height: 0;
 }
 </style>

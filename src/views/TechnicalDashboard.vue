@@ -21,26 +21,26 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content>
+    <ion-content class="dashboard-content">
       <div class="dashboard-container">
-        <ion-grid class="ion-no-padding">
-          <ion-row class="ion-padding">
-            <ion-col size="12" size-md="6" class="ion-padding-horizontal ion-padding-bottom">
+        <ion-grid class="dashboard-grid">
+          <ion-row class="dashboard-row">
+            <ion-col size="12" size-md="6" class="chart-col">
               <ErrorRateChart />
             </ion-col>
-            <ion-col size="12" size-md="6" class="ion-padding-horizontal ion-padding-bottom">
+            <ion-col size="12" size-md="6" class="chart-col">
               <LoadTimeChart />
             </ion-col>
           </ion-row>
           
-          <ion-row class="ion-padding">
-            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
+          <ion-row class="dashboard-row">
+            <ion-col size="12" size-md="4" class="chart-col">
               <ResourceUsageChart />
             </ion-col>
-            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
+            <ion-col size="12" size-md="4" class="chart-col">
               <RealtimeConnectionsChart />
             </ion-col>
-            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
+            <ion-col size="12" size-md="4" class="chart-col">
               <AlertsChart />
             </ion-col>
           </ion-row>
@@ -61,8 +61,19 @@ import AlertsChart from '../components/technical/AlertsChart.vue';
 </script>
 
 <style scoped>
-ion-content {
-  --background: #f5f7fa;
+/* Forzar fondo blanco en toda la página */
+ion-page {
+  --background: #ffffff !important;
+}
+
+.dashboard-content {
+  --background: #ffffff !important;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 ion-toolbar {
@@ -77,26 +88,66 @@ ion-toolbar {
 }
 
 .dashboard-container {
-  max-width: 1600px;
-  margin: 0 auto;
-}
-
-ion-grid {
   height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+  overflow: hidden;
 }
 
-ion-row {
+.dashboard-grid {
+  height: 100%;
   margin: 0;
-}
-
-ion-col {
+  padding: 8px;
   display: flex;
   flex-direction: column;
 }
 
+.dashboard-row {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 0;
+}
+
+.chart-col {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  ion-col {
-    padding: 8px;
+  .dashboard-grid {
+    padding: 4px;
+  }
+  
+  .chart-col {
+    padding: 2px;
+  }
+  
+  .dashboard-row {
+    flex-direction: column;
+  }
+  
+  .dashboard-row:first-child {
+    flex: 1.2;
+  }
+  
+  .dashboard-row:last-child {
+    flex: 1.8;
+  }
+}
+
+@media (min-width: 769px) {
+  .dashboard-row:first-child {
+    flex: 1;
+  }
+  
+  .dashboard-row:last-child {
+    flex: 1;
   }
 }
 </style>

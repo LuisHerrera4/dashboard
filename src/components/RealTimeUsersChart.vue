@@ -4,7 +4,7 @@
       <ion-card-title>Usuarios Activos</ion-card-title>
       <ion-card-subtitle>En tiempo real</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="chart-content">
       <div class="realtime-container">
         <div class="users-count">
           <div class="count">{{ currentUsers }}</div>
@@ -127,16 +127,26 @@ onUnmounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
-ion-card-content {
-  height: 300px;
+.chart-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: #ffffff;
 }
 
 .realtime-container {
   position: relative;
   height: 100%;
   width: 100%;
+  background-color: #ffffff;
+  flex: 1;
+  min-height: 0;
 }
 
 .users-count {
@@ -146,7 +156,7 @@ ion-card-content {
   transform: translate(-50%, -50%);
   text-align: center;
   z-index: 10;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 15px 25px;
   border-radius: 50px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -169,5 +179,6 @@ canvas {
   z-index: 5;
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
 }
 </style>

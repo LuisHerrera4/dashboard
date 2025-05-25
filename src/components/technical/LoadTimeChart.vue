@@ -4,7 +4,7 @@
       <ion-card-title>Tiempo Medio de Carga por Pantalla</ion-card-title>
       <ion-card-subtitle>Medido en milisegundos</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="chart-content">
       <div ref="chartContainer" class="chart-container"></div>
     </ion-card-content>
   </ion-card>
@@ -41,9 +41,12 @@ const loadTimeData = [
 loadTimeData.sort((a, b) => b.loadTime - a.loadTime);
 
 onMounted(() => {
-  chart = echarts.init(chartContainer.value);
+  chart = echarts.init(chartContainer.value, null, {
+    backgroundColor: '#ffffff'
+  });
   
   const option = {
+    backgroundColor: '#ffffff',
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -53,7 +56,7 @@ onMounted(() => {
         return `<div style="font-weight:bold;margin-bottom:5px;">${params[0].name}</div>` +
                `<div>Tiempo de carga: <span style="font-weight:bold;color:#ffcc00;">${params[0].value} ms</span></div>`;
       },
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      backgroundColor: 'rgba(255, 255, 255, 0.95)',
       borderColor: '#ffcc00',
       borderWidth: 1,
       textStyle: {
@@ -181,14 +184,24 @@ onMounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
-ion-card-content {
-  height: 300px;
+.chart-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: #ffffff;
 }
 
 .chart-container {
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
+  flex: 1;
+  min-height: 0;
 }
 </style>

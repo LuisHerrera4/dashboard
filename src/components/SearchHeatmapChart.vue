@@ -4,7 +4,7 @@
       <ion-card-title>Mapa de Calor de Búsquedas</ion-card-title>
       <ion-card-subtitle>Por hora y día de la semana</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="chart-content">
       <div ref="chartContainer" class="chart-container"></div>
     </ion-card-content>
   </ion-card>
@@ -73,15 +73,18 @@ const generateHeatmapData = () => {
 
 onMounted(() => {
   const { hours, days, data } = generateHeatmapData();
-  chart = echarts.init(chartContainer.value);
+  chart = echarts.init(chartContainer.value, null, {
+    backgroundColor: '#ffffff'
+  });
   
   const option = {
+    backgroundColor: '#ffffff',
     tooltip: {
       position: 'top',
       formatter: function (params) {
         return `${days[params.value[1]]}, ${hours[params.value[0]]}<br>Búsquedas: ${params.value[2]}`;
       },
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      backgroundColor: 'rgba(255, 255, 255, 0.95)',
       borderColor: '#ffcc00',
       borderWidth: 1,
       textStyle: {
@@ -188,14 +191,24 @@ onMounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
-ion-card-content {
-  height: 300px;
+.chart-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: #ffffff;
 }
 
 .chart-container {
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
+  flex: 1;
+  min-height: 0;
 }
 </style>

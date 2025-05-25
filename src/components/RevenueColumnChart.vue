@@ -4,8 +4,8 @@
       <ion-card-title>Ingresos Mensuales por País</ion-card-title>
       <ion-card-subtitle>Comparativa del último trimestre</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
-      <div id="revenue-chart"></div>
+    <ion-card-content class="chart-content">
+      <div id="revenue-chart" class="chart-container"></div>
     </ion-card-content>
   </ion-card>
 </template>
@@ -46,13 +46,13 @@ onMounted(() => {
     series: revenueData,
     chart: {
       type: 'bar',
-      height: 300,
+      height: '100%',
       stacked: false,
       toolbar: {
         show: false
       },
       fontFamily: 'inherit',
-      background: 'transparent'
+      background: '#ffffff'
     },
     plotOptions: {
       bar: {
@@ -128,7 +128,7 @@ onMounted(() => {
         fontSize: '12px'
       }
     },
-    colors: ['#ffcc00', '#999999', '#666666', '#333333', '#cccccc'],
+    colors: ['#ffcc00', '#ff9f43', '#ee5253', '#0abde3', '#10ac84'],
     legend: {
       position: 'top',
       horizontalAlign: 'left',
@@ -148,11 +148,13 @@ onMounted(() => {
   
   // Manejar cambios de tamaño
   window.addEventListener('resize', () => {
-    chart.updateOptions({
-      chart: {
-        height: document.querySelector("#revenue-chart").offsetHeight
-      }
-    });
+    if (chart) {
+      chart.updateOptions({
+        chart: {
+          height: document.querySelector("#revenue-chart").offsetHeight
+        }
+      });
+    }
   });
 });
 
@@ -167,14 +169,24 @@ onUnmounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
-ion-card-content {
-  height: 300px;
+.chart-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: #ffffff;
 }
 
-#revenue-chart {
+.chart-container {
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
+  flex: 1;
+  min-height: 0;
 }
 </style>

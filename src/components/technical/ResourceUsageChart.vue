@@ -4,7 +4,7 @@
       <ion-card-title>Consumo de Recursos</ion-card-title>
       <ion-card-subtitle>CPU, RAM y Batería</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="chart-content">
       <canvas ref="chartCanvas"></canvas>
     </ion-card-content>
   </ion-card>
@@ -87,7 +87,7 @@ onMounted(() => {
           }
         },
         tooltip: {
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
           titleColor: '#333',
           bodyColor: '#666',
           borderColor: '#ffcc00',
@@ -118,7 +118,7 @@ onMounted(() => {
           max: 30,
           ticks: {
             stepSize: 5,
-            backdropColor: 'transparent',
+            backdropColor: 'rgba(255, 255, 255, 0.8)',
             color: '#666'
           },
           grid: {
@@ -164,39 +164,23 @@ onUnmounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  margin: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-radius: 12px;
-  overflow: hidden;
   border-top: 3px solid #ffcc00;
-}
-
-ion-card-header {
-  padding: 16px;
-  background-color: #fff;
-}
-
-ion-card-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
-}
-
-ion-card-subtitle {
-  font-size: 0.85rem;
-  color: #666;
-}
-
-ion-card-content {
-  padding: 0 16px 16px;
-  height: 280px;
+  background-color: #ffffff;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+}
+
+.chart-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: #ffffff;
 }
 
 canvas {
-  max-width: 100%;
-  max-height: 100%;
+  flex: 1;
+  min-height: 0;
+  background-color: #ffffff;
 }
 </style>

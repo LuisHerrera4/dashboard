@@ -4,8 +4,8 @@
       <ion-card-title>Alertas Técnicas Frecuentes</ion-card-title>
       <ion-card-subtitle>Últimas 24 horas</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
-      <div id="alerts-chart"></div>
+    <ion-card-content class="chart-content">
+      <div id="alerts-chart" class="chart-container"></div>
     </ion-card-content>
   </ion-card>
 </template>
@@ -40,12 +40,12 @@ onMounted(() => {
     }],
     chart: {
       type: 'bar',
-      height: 300,
+      height: '100%',
       toolbar: {
         show: false
       },
       fontFamily: 'inherit',
-      background: 'transparent'
+      background: '#ffffff'
     },
     plotOptions: {
       bar: {
@@ -165,14 +165,24 @@ onMounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
-ion-card-content {
-  height: 300px;
+.chart-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: #ffffff;
 }
 
-#alerts-chart {
+.chart-container {
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
+  flex: 1;
+  min-height: 0;
 }
 </style>

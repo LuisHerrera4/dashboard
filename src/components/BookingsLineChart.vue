@@ -4,7 +4,7 @@
       <ion-card-title>Evolución Diaria de Reservas</ion-card-title>
       <ion-card-subtitle>Último mes</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="chart-content">
       <canvas ref="chartCanvas"></canvas>
     </ion-card-content>
   </ion-card>
@@ -140,9 +140,20 @@ onUnmounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
-ion-card-content {
-  height: 300px;
+.chart-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+canvas {
+  flex: 1;
+  min-height: 0;
 }
 </style>

@@ -4,7 +4,7 @@
       <ion-card-title>Conexiones Activas por Región</ion-card-title>
       <ion-card-subtitle>Actualización en tiempo real</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="chart-content">
       <div class="connections-summary">
         <div class="total-connections">
           <div class="count">{{ totalConnections }}</div>
@@ -69,13 +69,16 @@ const updateConnectionsData = () => {
 };
 
 onMounted(() => {
-  chart = echarts.init(chartContainer.value);
+  chart = echarts.init(chartContainer.value, null, {
+    backgroundColor: '#ffffff'
+  });
   
   const option = {
+    backgroundColor: '#ffffff',
     tooltip: {
       trigger: 'item',
       formatter: '{b}: {c} conexiones',
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      backgroundColor: 'rgba(255, 255, 255, 0.95)',
       borderColor: '#ffcc00',
       borderWidth: 1,
       textStyle: {
@@ -196,10 +199,17 @@ onMounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
-ion-card-content {
-  height: 300px;
+.chart-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: #ffffff;
   position: relative;
 }
 
@@ -208,7 +218,7 @@ ion-card-content {
   top: 10px;
   right: 20px;
   z-index: 10;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.95);
   border-radius: 8px;
   padding: 8px 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -233,5 +243,8 @@ ion-card-content {
 .chart-container {
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
+  flex: 1;
+  min-height: 0;
 }
 </style>
