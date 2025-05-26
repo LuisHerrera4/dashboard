@@ -37,6 +37,8 @@ const responseTimeData = [
   { functionality: 'Calendario', responseTime: 220 }
 ];
 
+const kpiTarget = 200; // KPI: 200ms máximo
+
 responseTimeData.sort((a, b) => b.responseTime - a.responseTime);
 
 onMounted(() => {
@@ -51,10 +53,10 @@ onMounted(() => {
       },
       formatter: function(params) {
         return `<div style="font-weight:bold;margin-bottom:5px;">${params[0].name}</div>` +
-               `<div>Tiempo de respuesta: <span style="font-weight:bold;color:#ffcc00;">${params[0].value} ms</span></div>`;
+               `<div>Tiempo de respuesta: <span style="font-weight:bold;color:#2563eb;">${params[0].value} ms</span></div>`;
       },
       backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      borderColor: '#ffcc00',
+      borderColor: '#2563eb',
       borderWidth: 1,
       textStyle: {
         color: '#333'
@@ -118,7 +120,7 @@ onMounted(() => {
             const value = params.value;
             if (value > 600) return '#ff6b6b'; // Rojo para tiempos lentos
             if (value > 300) return '#ffd166'; // Amarillo para tiempos medios
-            return '#06d6a0'; // Verde para tiempos rápidos
+            return '#2563eb'; // Azul para tiempos rápidos
           },
           borderRadius: [0, 4, 4, 0]
         },
@@ -128,6 +130,24 @@ onMounted(() => {
           position: 'right',
           formatter: '{c} ms',
           color: '#666'
+        },
+        markLine: {
+          data: [
+            {
+              xAxis: kpiTarget,
+              lineStyle: {
+                color: '#ef4444',
+                type: 'dashed',
+                width: 2
+              },
+              label: {
+                formatter: 'KPI: 200ms',
+                position: 'insideEndTop',
+                color: '#ef4444',
+                fontWeight: 'bold'
+              }
+            }
+          ]
         }
       }
     ]
@@ -159,7 +179,7 @@ onMounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  border-top: 3px solid #ffcc00;
+  border-top: 3px solid #2563eb;
   background-color: #ffffff !important;
 }
 

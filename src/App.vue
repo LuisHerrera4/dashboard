@@ -44,7 +44,7 @@
               </ion-menu-toggle>
             </ion-list>
           </div>
-        
+          
         </ion-content>
       </ion-menu>
       <ion-router-outlet id="main-content"></ion-router-outlet>
@@ -122,7 +122,7 @@ ion-split-pane {
 }
 
 .menu-header {
-  background: linear-gradient(135deg, #ffcc00 0%, #ffd633 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
   padding: 24px 20px;
   border-bottom: 1px solid #e0e0e0;
 }
@@ -146,21 +146,21 @@ ion-split-pane {
 
 .logo {
   font-size: 24px;
-  color: #333;
+  color: white;
 }
 
 .logo-text h2 {
   margin: 0;
   font-size: 20px;
   font-weight: 700;
-  color: #333;
+  color: white;
   line-height: 1.2;
 }
 
 .logo-text p {
   margin: 0;
   font-size: 12px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
 }
 
@@ -184,8 +184,8 @@ ion-split-pane {
 
 .menu-item {
   --background: transparent;
-  --background-hover: rgba(255, 204, 0, 0.08);
-  --background-activated: rgba(255, 204, 0, 0.12);
+  --background-hover: rgba(37, 99, 235, 0.08);
+  --background-activated: rgba(37, 99, 235, 0.12);
   --color: #333;
   --padding-start: 20px;
   --padding-end: 20px;
@@ -199,14 +199,14 @@ ion-split-pane {
 }
 
 .menu-item:hover {
-  --background: rgba(255, 204, 0, 0.08);
+  --background: rgba(37, 99, 235, 0.08);
   transform: translateX(4px);
 }
 
 .menu-item-selected {
-  --background: rgba(255, 204, 0, 0.12);
+  --background: rgba(37, 99, 235, 0.12);
   --color: #333;
-  box-shadow: 0 2px 8px rgba(255, 204, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
 }
 
 .menu-item-content {
@@ -219,7 +219,7 @@ ion-split-pane {
 .menu-icon-container {
   width: 40px;
   height: 40px;
-  background-color: rgba(255, 204, 0, 0.1);
+  background-color: rgba(37, 99, 235, 0.1);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -228,7 +228,7 @@ ion-split-pane {
 }
 
 .menu-item-selected .menu-icon-container {
-  background-color: #ffcc00;
+  background-color: #2563eb;
 }
 
 .menu-icon {
@@ -238,7 +238,7 @@ ion-split-pane {
 }
 
 .menu-item-selected .menu-icon {
-  color: #333;
+  color: white;
 }
 
 .menu-text {
@@ -269,22 +269,23 @@ ion-split-pane {
 .indicator-dot {
   width: 8px;
   height: 8px;
-  background-color: #ffcc00;
+  background-color: #2563eb;
   border-radius: 50%;
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7);
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(255, 204, 0, 0);
+    box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(255, 204, 0, 0);
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
   }
 }
+
 
 @media (max-width: 768px) {
   ion-split-pane {
@@ -327,11 +328,11 @@ ion-split-pane {
 
 .menu-item:hover .menu-icon-container {
   transform: scale(1.05);
-  background-color: rgba(255, 204, 0, 0.2);
+  background-color: rgba(37, 99, 235, 0.2);
 }
 
 .menu-item:hover .menu-icon {
-  color: #ffcc00;
+  color: #2563eb;
 }
 
 .menu-item:active {
@@ -350,7 +351,7 @@ ion-split-pane {
   transform: translateY(-50%);
   width: 4px;
   height: 24px;
-  background-color: #ffcc00;
+  background-color: #2563eb;
   border-radius: 0 4px 4px 0;
 }
 </style>

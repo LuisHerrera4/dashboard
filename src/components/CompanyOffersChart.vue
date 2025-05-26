@@ -81,7 +81,7 @@ onMounted(() => {
         }
       }
     },
-    colors: ['#ffcc00', '#10ac84', '#54a0ff', '#ff6b6b', '#5f27cd']
+    colors: ['#2563eb', '#10ac84', '#54a0ff', '#ff6b6b', '#5f27cd']
   };
 
   chart = new ApexCharts(document.querySelector("#company-offers-chart"), options);
@@ -98,7 +98,7 @@ onUnmounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  border-top: 3px solid #ffcc00;
+  border-top: 3px solid #2563eb;
   background-color: #ffffff !important;
 }
 

@@ -39,6 +39,8 @@ const errorData = [
   { module: 'Autenticación', errorRate: 0.2 }
 ];
 
+const kpiTarget = 0.5; // KPI: 0.5% máximo de errores
+
 let pointCoordinates = [];
 
 const drawChart = () => {
@@ -95,6 +97,23 @@ const drawChart = () => {
     ctx.fillText(value.toFixed(1) + '%', padding.left - 10, y);
   }
   
+  // Línea KPI
+  const kpiY = scaleY(kpiTarget);
+  ctx.beginPath();
+  ctx.setLineDash([8, 4]);
+  ctx.moveTo(padding.left, kpiY);
+  ctx.lineTo(width - padding.right, kpiY);
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // Etiqueta KPI
+  ctx.fillStyle = '#ef4444';
+  ctx.font = 'bold 12px Arial';
+  ctx.textAlign = 'left';
+  ctx.fillText('KPI: 0.5%', padding.left + 10, kpiY - 8);
+  
   // Etiquetas del eje X
   errorData.forEach((data, index) => {
     const x = scaleX(index);
@@ -134,8 +153,8 @@ const drawChart = () => {
   ctx.closePath();
   
   const gradient = ctx.createLinearGradient(0, padding.top, 0, height - padding.bottom);
-  gradient.addColorStop(0, 'rgba(255, 107, 107, 0.7)');
-  gradient.addColorStop(1, 'rgba(255, 107, 107, 0.1)');
+  gradient.addColorStop(0, 'rgba(37, 99, 235, 0.7)');
+  gradient.addColorStop(1, 'rgba(37, 99, 235, 0.1)');
   ctx.fillStyle = gradient;
   ctx.fill();
   
@@ -151,7 +170,7 @@ const drawChart = () => {
       ctx.lineTo(x, y);
     }
   });
-  ctx.strokeStyle = '#ff6b6b';
+  ctx.strokeStyle = '#2563eb';
   ctx.lineWidth = 3;
   ctx.stroke();
   
@@ -162,7 +181,7 @@ const drawChart = () => {
     
     ctx.beginPath();
     ctx.arc(x, y, 6, 0, Math.PI * 2);
-    ctx.fillStyle = '#ff6b6b';
+    ctx.fillStyle = '#2563eb';
     ctx.fill();
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 2;
@@ -252,7 +271,7 @@ onMounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  border-top: 3px solid #ff6b6b;
+  border-top: 3px solid #2563eb;
   background-color: #ffffff !important;
 }
 
@@ -284,7 +303,7 @@ canvas {
 .tooltip {
   position: absolute;
   background-color: rgba(255, 255, 255, 0.95);
-  border: 1px solid #ff6b6b;
+  border: 1px solid #2563eb;
   border-radius: 8px;
   padding: 8px 12px;
   pointer-events: none;

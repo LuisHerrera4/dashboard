@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar color="vueling">
+      <ion-toolbar color="easyfct">
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
@@ -21,7 +21,7 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content class="white-background">
+    <ion-content class="white-background" :scroll-y="false">
       <div class="dashboard-container">
         <ion-grid class="ion-no-padding">
           <ion-row class="ion-padding">
@@ -67,6 +67,7 @@ ion-page {
 
 ion-content {
   --background: #ffffff !important;
+  --overflow: hidden;
 }
 
 .white-background {
@@ -74,8 +75,8 @@ ion-content {
 }
 
 ion-toolbar {
-  --background: #ffcc00;
-  --color: #333;
+  --background: #2563eb;
+  --color: white;
 }
 
 .title-container {
@@ -88,6 +89,8 @@ ion-toolbar {
   max-width: 1600px;
   margin: 0 auto;
   background-color: #ffffff;
+  height: 100%;
+  overflow: hidden;
 }
 
 ion-grid {
@@ -97,6 +100,7 @@ ion-grid {
 
 ion-row {
   margin: 0;
+  height: 50%;
 }
 
 ion-col {
@@ -105,6 +109,10 @@ ion-col {
 }
 
 @media (max-width: 768px) {
+  ion-row {
+    height: auto;
+  }
+  
   ion-col {
     padding: 8px;
   }

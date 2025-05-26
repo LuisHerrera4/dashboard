@@ -68,7 +68,7 @@ onMounted(() => {
         return `${days[params.value[1]]}, ${hours[params.value[0]]}<br>Consultas: ${params.value[2]}`;
       },
       backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      borderColor: '#ffcc00',
+      borderColor: '#2563eb',
       borderWidth: 1,
       textStyle: {
         color: '#333'
@@ -109,7 +109,7 @@ onMounted(() => {
       orient: 'horizontal',
       left: 'center',
       bottom: '0%',
-      color: ['#ffcc00', '#ffd633', '#ffe066', '#ffeb99', '#fff5cc'],
+      color: ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe'],
       textStyle: {
         color: '#666'
       }
@@ -156,7 +156,7 @@ onMounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  border-top: 3px solid #ffcc00;
+  border-top: 3px solid #2563eb;
   background-color: #ffffff !important;
 }
 

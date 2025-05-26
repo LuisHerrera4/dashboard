@@ -75,7 +75,7 @@ onMounted(() => {
       trigger: 'item',
       formatter: '{b}: {c} conexiones',
       backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      borderColor: '#ffcc00',
+      borderColor: '#2563eb',
       borderWidth: 1,
       textStyle: {
         color: '#333'
@@ -135,7 +135,7 @@ onMounted(() => {
         name: item.region,
         itemStyle: {
           color: function(params) {
-            const colors = ['#ffcc00', '#ff9f43', '#ee5253', '#0abde3', '#10ac84', '#5f27cd'];
+            const colors = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe', '#eff6ff'];
             return colors[params.dataIndex % colors.length];
           }
         }
@@ -189,7 +189,7 @@ onMounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  border-top: 3px solid #ffcc00;
+  border-top: 3px solid #2563eb;
   background-color: #ffffff !important;
 }
 
@@ -213,7 +213,7 @@ onMounted(() => {
   border-radius: 8px;
   padding: 8px 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ffcc00;
+  border: 1px solid #2563eb;
 }
 
 .total-connections {
@@ -223,7 +223,7 @@ onMounted(() => {
 .count {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #ffcc00;
+  color: #2563eb;
 }
 
 .label {

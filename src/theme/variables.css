@@ -41,12 +41,12 @@ ion-content {
   --background: #ffffff !important;
 }
 
-/* Color personalizado para Vueling */
-.ion-color-vueling {
-  --ion-color-base: #ffcc00;
-  --ion-color-base-rgb: 255, 204, 0;
-  --ion-color-contrast: #333333;
-  --ion-color-contrast-rgb: 51, 51, 51;
-  --ion-color-shade: #e6b800;
-  --ion-color-tint: #ffcc00;
+/* Color personalizado para EasyFCT */
+.ion-color-easyfct {
+  --ion-color-base: #2563eb;
+  --ion-color-base-rgb: 37, 99, 235;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 255, 255, 255;
+  --ion-color-shade: #1e40af;
+  --ion-color-tint: #3b82f6;
 }

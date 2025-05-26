@@ -53,6 +53,13 @@ const resourceData = [
   }
 ];
 
+// KPIs para recursos del servidor
+const kpiLimits = {
+  cpu: 80,      // 80% máximo CPU
+  ram: 85,      // 85% máximo RAM  
+  storage: 90   // 90% máximo almacenamiento
+};
+
 onMounted(() => {
   const ctx = chartCanvas.value.getContext('2d');
   
@@ -60,19 +67,34 @@ onMounted(() => {
     type: 'radar',
     data: {
       labels: ['CPU (%)', 'RAM (%)', 'Almacenamiento (%)'],
-      datasets: resourceData.map((server, index) => ({
-        label: server.label,
-        data: [server.cpu, server.ram, server.storage],
-        backgroundColor: `rgba(255, 204, 0, ${0.7 - index * 0.1})`,
-        borderColor: index === 0 ? '#ffcc00' : `rgba(${51 + index * 40}, ${51 + index * 40}, ${51 + index * 40}, 0.8)`,
-        borderWidth: 2,
-        pointBackgroundColor: index === 0 ? '#ffcc00' : `rgba(${51 + index * 40}, ${51 + index * 40}, ${51 + index * 40}, 0.8)`,
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: index === 0 ? '#ffcc00' : `rgba(${51 + index * 40}, ${51 + index * 40}, ${51 + index * 40}, 0.8)`,
-        pointRadius: 4,
-        pointHoverRadius: 6
-      }))
+      datasets: [
+        ...resourceData.map((server, index) => ({
+          label: server.label,
+          data: [server.cpu, server.ram, server.storage],
+          backgroundColor: `rgba(37, 99, 235, ${0.7 - index * 0.1})`,
+          borderColor: index === 0 ? '#2563eb' : `rgba(${51 + index * 40}, ${51 + index * 40}, ${51 + index * 40}, 0.8)`,
+          borderWidth: 2,
+          pointBackgroundColor: index === 0 ? '#2563eb' : `rgba(${51 + index * 40}, ${51 + index * 40}, ${51 + index * 40}, 0.8)`,
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: index === 0 ? '#2563eb' : `rgba(${51 + index * 40}, ${51 + index * 40}, ${51 + index * 40}, 0.8)`,
+          pointRadius: 4,
+          pointHoverRadius: 6
+        })),
+        {
+          label: 'KPI Límites',
+          data: [kpiLimits.cpu, kpiLimits.ram, kpiLimits.storage],
+          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+          borderColor: '#ef4444',
+          borderWidth: 3,
+          borderDash: [5, 5],
+          pointBackgroundColor: '#ef4444',
+          pointBorderColor: '#fff',
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          fill: false
+        }
+      ]
     },
     options: {
       responsive: true,
@@ -90,7 +112,7 @@ onMounted(() => {
           backgroundColor: 'rgba(255, 255, 255, 0.9)',
           titleColor: '#333',
           bodyColor: '#666',
-          borderColor: '#ffcc00',
+          borderColor: '#2563eb',
           borderWidth: 1,
           padding: 10,
           displayColors: true,
@@ -99,6 +121,10 @@ onMounted(() => {
               const label = context.dataset.label || '';
               const value = context.raw;
               const metric = context.chart.data.labels[context.dataIndex];
+              
+              if (label === 'KPI Límites') {
+                return `${label}: ${value}% límite de ${metric.split(' ')[0]}`;
+              }
               
               return `${label}: ${value}% de ${metric.split(' ')[0]}`;
             }
@@ -156,7 +182,7 @@ onUnmounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  border-top: 3px solid #ffcc00;
+  border-top: 3px solid #2563eb;
   background-color: #ffffff !important;
 }
 

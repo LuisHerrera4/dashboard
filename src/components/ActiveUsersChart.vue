@@ -31,7 +31,7 @@ import Chart from 'chart.js/auto';
 const chartCanvas = ref(null);
 const currentUsers = ref(0);
 const userRoles = ref([
-  { name: 'Profesores', count: 12, color: '#ffcc00' },
+  { name: 'Profesores', count: 12, color: '#2563eb' },
   { name: 'Empresas', count: 8, color: '#10ac84' },
   { name: 'Admins', count: 3, color: '#ff6b6b' }
 ]);
@@ -67,8 +67,8 @@ onMounted(() => {
       datasets: [{
         label: 'Usuarios Activos',
         data: data,
-        borderColor: '#ffcc00',
-        backgroundColor: 'rgba(255, 204, 0, 0.1)',
+        borderColor: '#2563eb',
+        backgroundColor: 'rgba(37, 99, 235, 0.1)',
         borderWidth: 2,
         tension: 0.4,
         fill: true,
@@ -130,7 +130,7 @@ onUnmounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  border-top: 3px solid #ffcc00;
+  border-top: 3px solid #2563eb;
   background-color: #ffffff !important;
 }
 
@@ -165,7 +165,7 @@ onUnmounted(() => {
 .count {
   font-size: 2rem;
   font-weight: bold;
-  color: #ffcc00;
+  color: #2563eb;
 }
 
 .label {

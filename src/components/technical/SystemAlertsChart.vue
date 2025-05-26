@@ -59,7 +59,8 @@ onMounted(() => {
       textAnchor: 'start',
       style: {
         colors: ['#fff'],
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: '12px'
       },
       formatter: function(val, opt) {
         return val;
@@ -67,8 +68,14 @@ onMounted(() => {
       offsetX: 0
     },
     colors: [
-      '#ff6b6b', '#ff9f43', '#feca57', '#1dd1a1', 
-      '#54a0ff', '#5f27cd', '#48dbfb', '#10ac84'
+      '#ef4444', // Rojo para el más crítico
+      '#f97316', // Naranja
+      '#eab308', // Amarillo
+      '#22c55e', // Verde
+      '#3b82f6', // Azul
+      '#8b5cf6', // Púrpura
+      '#06b6d4', // Cian
+      '#84cc16'  // Lima
     ],
     xaxis: {
       categories: alertsData.map(item => item.type),
@@ -120,10 +127,27 @@ onMounted(() => {
             return 'Ocurrencias:';
           }
         }
+      },
+      style: {
+        fontSize: '12px'
       }
     },
     legend: {
       show: false
+    },
+    states: {
+      hover: {
+        filter: {
+          type: 'lighten',
+          value: 0.1
+        }
+      },
+      active: {
+        filter: {
+          type: 'darken',
+          value: 0.1
+        }
+      }
     }
   };
 
@@ -160,7 +184,7 @@ onMounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  border-top: 3px solid #ff6b6b;
+  border-top: 3px solid #2563eb;
   background-color: #ffffff !important;
 }
 
