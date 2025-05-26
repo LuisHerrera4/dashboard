@@ -7,7 +7,7 @@
         </ion-buttons>
         <ion-title>
           <div class="title-container">
-            <span>Dashboard Técnico</span>
+            <span>Dashboard Técnico - EasyFCT</span>
           </div>
         </ion-title>
         <ion-buttons slot="end">
@@ -21,27 +21,27 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content class="dashboard-content">
+    <ion-content class="white-background">
       <div class="dashboard-container">
-        <ion-grid class="dashboard-grid">
-          <ion-row class="dashboard-row">
-            <ion-col size="12" size-md="6" class="chart-col">
-              <ErrorRateChart />
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-padding">
+            <ion-col size="12" size-md="6" class="ion-padding-horizontal ion-padding-bottom">
+              <SystemErrorsChart />
             </ion-col>
-            <ion-col size="12" size-md="6" class="chart-col">
-              <LoadTimeChart />
+            <ion-col size="12" size-md="6" class="ion-padding-horizontal ion-padding-bottom">
+              <ResponseTimeChart />
             </ion-col>
           </ion-row>
           
-          <ion-row class="dashboard-row">
-            <ion-col size="12" size-md="4" class="chart-col">
-              <ResourceUsageChart />
+          <ion-row class="ion-padding">
+            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
+              <ServerResourcesChart />
             </ion-col>
-            <ion-col size="12" size-md="4" class="chart-col">
-              <RealtimeConnectionsChart />
+            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
+              <ActiveConnectionsChart />
             </ion-col>
-            <ion-col size="12" size-md="4" class="chart-col">
-              <AlertsChart />
+            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
+              <SystemAlertsChart />
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -53,27 +53,24 @@
 <script setup>
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonButtons, IonButton, IonIcon, IonMenuButton } from '@ionic/vue';
 import { notificationsOutline, personCircleOutline } from 'ionicons/icons';
-import ErrorRateChart from '../components/technical/ErrorRateChart.vue';
-import LoadTimeChart from '../components/technical/LoadTimeChart.vue';
-import ResourceUsageChart from '../components/technical/ResourceUsageChart.vue';
-import RealtimeConnectionsChart from '../components/technical/RealTimeConnectionsChart.vue';
-import AlertsChart from '../components/technical/AlertsChart.vue';
+import SystemErrorsChart from '../components/technical/SystemErrorsChart.vue';
+import ResponseTimeChart from '../components/technical/ResponseTimeChart.vue';
+import ServerResourcesChart from '../components/technical/ServerResourcesChart.vue';
+import ActiveConnectionsChart from '../components/technical/ActiveConnectionsChart.vue';
+import SystemAlertsChart from '../components/technical/SystemAlertsChart.vue';
 </script>
 
 <style scoped>
-/* Forzar fondo blanco en toda la página */
 ion-page {
   --background: #ffffff !important;
 }
 
-.dashboard-content {
+ion-content {
   --background: #ffffff !important;
-  --padding-top: 0;
-  --padding-bottom: 0;
-  --padding-start: 0;
-  --padding-end: 0;
-  height: 100%;
-  overflow: hidden;
+}
+
+.white-background {
+  background-color: #ffffff !important;
 }
 
 ion-toolbar {
@@ -88,66 +85,28 @@ ion-toolbar {
 }
 
 .dashboard-container {
-  height: 100%;
-  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
   background-color: #ffffff;
-  overflow: hidden;
 }
 
-.dashboard-grid {
+ion-grid {
   height: 100%;
+  background-color: #ffffff;
+}
+
+ion-row {
   margin: 0;
-  padding: 8px;
+}
+
+ion-col {
   display: flex;
   flex-direction: column;
 }
 
-.dashboard-row {
-  flex: 1;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  min-height: 0;
-}
-
-.chart-col {
-  padding: 4px;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
-}
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
-  .dashboard-grid {
-    padding: 4px;
-  }
-  
-  .chart-col {
-    padding: 2px;
-  }
-  
-  .dashboard-row {
-    flex-direction: column;
-  }
-  
-  .dashboard-row:first-child {
-    flex: 1.2;
-  }
-  
-  .dashboard-row:last-child {
-    flex: 1.8;
-  }
-}
-
-@media (min-width: 769px) {
-  .dashboard-row:first-child {
-    flex: 1;
-  }
-  
-  .dashboard-row:last-child {
-    flex: 1;
+  ion-col {
+    padding: 8px;
   }
 }
 </style>

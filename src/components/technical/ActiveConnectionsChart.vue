@@ -1,10 +1,10 @@
 <template>
-  <ion-card class="chart-card">
+  <ion-card class="chart-card white-card">
     <ion-card-header>
       <ion-card-title>Conexiones Activas por Región</ion-card-title>
-      <ion-card-subtitle>Actualización en tiempo real</ion-card-subtitle>
+      <ion-card-subtitle>Usuarios conectados en tiempo real</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content class="chart-content">
+    <ion-card-content class="white-content">
       <div class="connections-summary">
         <div class="total-connections">
           <div class="count">{{ totalConnections }}</div>
@@ -28,12 +28,14 @@ echarts.use([BarChart, TooltipComponent, LegendComponent, GridComponent, CanvasR
 
 const chartContainer = ref(null);
 const connectionsData = ref([
-  { region: 'Europa', connections: 245 },
-  { region: 'América', connections: 187 },
-  { region: 'Asia', connections: 103 },
-  { region: 'África', connections: 42 },
-  { region: 'Oceanía', connections: 28 }
+  { region: 'Madrid', connections: 145 },
+  { region: 'Cataluña', connections: 98 },
+  { region: 'Andalucía', connections: 87 },
+  { region: 'Valencia', connections: 65 },
+  { region: 'País Vasco', connections: 42 },
+  { region: 'Galicia', connections: 38 }
 ]);
+
 const totalConnections = computed(() => {
   return connectionsData.value.reduce((sum, item) => sum + item.connections, 0);
 });
@@ -41,13 +43,10 @@ const totalConnections = computed(() => {
 let chart = null;
 let updateInterval = null;
 
-// Función para actualizar los datos en tiempo real
 const updateConnectionsData = () => {
-  // Actualizar cada región con una fluctuación aleatoria
   connectionsData.value = connectionsData.value.map(item => {
-    // Generar una fluctuación entre -10% y +15%
-    const fluctuation = (Math.random() * 0.25) - 0.1;
-    const newConnections = Math.max(1, Math.round(item.connections * (1 + fluctuation)));
+    const fluctuation = (Math.random() * 0.2) - 0.1;
+    const newConnections = Math.max(10, Math.round(item.connections * (1 + fluctuation)));
     
     return {
       region: item.region,
@@ -55,7 +54,6 @@ const updateConnectionsData = () => {
     };
   });
   
-  // Actualizar el gráfico
   if (chart) {
     chart.setOption({
       series: [{
@@ -69,16 +67,14 @@ const updateConnectionsData = () => {
 };
 
 onMounted(() => {
-  chart = echarts.init(chartContainer.value, null, {
-    backgroundColor: '#ffffff'
-  });
+  chart = echarts.init(chartContainer.value);
   
   const option = {
     backgroundColor: '#ffffff',
     tooltip: {
       trigger: 'item',
       formatter: '{b}: {c} conexiones',
-      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
       borderColor: '#ffcc00',
       borderWidth: 1,
       textStyle: {
@@ -139,13 +135,12 @@ onMounted(() => {
         name: item.region,
         itemStyle: {
           color: function(params) {
-            // Colores diferentes para cada región
-            const colors = ['#ffcc00', '#ff9f43', '#ee5253', '#0abde3', '#10ac84'];
+            const colors = ['#ffcc00', '#ff9f43', '#ee5253', '#0abde3', '#10ac84', '#5f27cd'];
             return colors[params.dataIndex % colors.length];
           }
         }
       })),
-      barWidth: '40%',
+      barWidth: '50%',
       label: {
         show: true,
         position: 'top',
@@ -165,10 +160,8 @@ onMounted(() => {
   
   chart.setOption(option);
   
-  // Iniciar actualización en tiempo real
-  updateInterval = setInterval(updateConnectionsData, 1000);
+  updateInterval = setInterval(updateConnectionsData, 3000);
   
-  // Hacer responsivo
   const resizeHandler = () => {
     if (chart) {
       chart.resize();
@@ -177,11 +170,9 @@ onMounted(() => {
   
   window.addEventListener('resize', resizeHandler);
   
-  // Usar ResizeObserver para detectar cambios en el contenedor
   const resizeObserver = new ResizeObserver(resizeHandler);
   resizeObserver.observe(chartContainer.value);
   
-  // Limpiar al desmontar
   onUnmounted(() => {
     if (updateInterval) {
       clearInterval(updateInterval);
@@ -199,17 +190,17 @@ onMounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
+  background-color: #ffffff !important;
 }
 
-.chart-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  background-color: #ffffff;
+.white-card {
+  --background: #ffffff !important;
+  background: #ffffff !important;
+}
+
+.white-content {
+  background-color: #ffffff !important;
+  height: 300px;
   position: relative;
 }
 
@@ -218,7 +209,7 @@ onMounted(() => {
   top: 10px;
   right: 20px;
   z-index: 10;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
   padding: 8px 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -243,8 +234,6 @@ onMounted(() => {
 .chart-container {
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
-  flex: 1;
-  min-height: 0;
+  background-color: #ffffff !important;
 }
 </style>

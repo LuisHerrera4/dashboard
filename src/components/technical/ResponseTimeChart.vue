@@ -1,10 +1,10 @@
 <template>
-  <ion-card class="chart-card">
+  <ion-card class="chart-card white-card">
     <ion-card-header>
-      <ion-card-title>Tiempo Medio de Carga por Pantalla</ion-card-title>
-      <ion-card-subtitle>Medido en milisegundos</ion-card-subtitle>
+      <ion-card-title>Tiempo de Respuesta de la Plataforma</ion-card-title>
+      <ion-card-subtitle>Por funcionalidad (en milisegundos)</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content class="chart-content">
+    <ion-card-content class="white-content">
       <div ref="chartContainer" class="chart-container"></div>
     </ion-card-content>
   </ion-card>
@@ -15,35 +15,32 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/vue';
 import * as echarts from 'echarts/core';
 import { BarChart } from 'echarts/charts';
-import { TooltipComponent, LegendComponent, GridComponent, DataZoomComponent } from 'echarts/components';
+import { TooltipComponent, LegendComponent, GridComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 
-echarts.use([BarChart, TooltipComponent, LegendComponent, GridComponent, DataZoomComponent, CanvasRenderer]);
+echarts.use([BarChart, TooltipComponent, LegendComponent, GridComponent, CanvasRenderer]);
 
 const chartContainer = ref(null);
 let chart = null;
 
-// Datos simulados de tiempos de carga por pantalla
-const loadTimeData = [
-  { screen: 'Inicio', loadTime: 320 },
-  { screen: 'Búsqueda', loadTime: 580 },
-  { screen: 'Resultados', loadTime: 780 },
-  { screen: 'Detalles Vuelo', loadTime: 450 },
-  { screen: 'Selección Asiento', loadTime: 620 },
-  { screen: 'Pago', loadTime: 380 },
-  { screen: 'Confirmación', loadTime: 290 },
-  { screen: 'Mi Cuenta', loadTime: 340 },
-  { screen: 'Mis Vuelos', loadTime: 510 },
-  { screen: 'Check-in', loadTime: 420 }
+// Datos simulados de tiempos de respuesta por funcionalidad de EasyFCT
+const responseTimeData = [
+  { functionality: 'Login Estudiantes', responseTime: 180 },
+  { functionality: 'Portal Empresas', responseTime: 320 },
+  { functionality: 'Búsqueda Ofertas', responseTime: 450 },
+  { functionality: 'Asignar Práctica', responseTime: 280 },
+  { functionality: 'Subir Documentos', responseTime: 620 },
+  { functionality: 'Evaluaciones', responseTime: 240 },
+  { functionality: 'Generar Reportes', responseTime: 890 },
+  { functionality: 'Notificaciones', responseTime: 150 },
+  { functionality: 'Chat Soporte', responseTime: 380 },
+  { functionality: 'Calendario', responseTime: 220 }
 ];
 
-// Ordenar los datos por tiempo de carga (descendente)
-loadTimeData.sort((a, b) => b.loadTime - a.loadTime);
+responseTimeData.sort((a, b) => b.responseTime - a.responseTime);
 
 onMounted(() => {
-  chart = echarts.init(chartContainer.value, null, {
-    backgroundColor: '#ffffff'
-  });
+  chart = echarts.init(chartContainer.value);
   
   const option = {
     backgroundColor: '#ffffff',
@@ -54,9 +51,9 @@ onMounted(() => {
       },
       formatter: function(params) {
         return `<div style="font-weight:bold;margin-bottom:5px;">${params[0].name}</div>` +
-               `<div>Tiempo de carga: <span style="font-weight:bold;color:#ffcc00;">${params[0].value} ms</span></div>`;
+               `<div>Tiempo de respuesta: <span style="font-weight:bold;color:#ffcc00;">${params[0].value} ms</span></div>`;
       },
-      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
       borderColor: '#ffcc00',
       borderWidth: 1,
       textStyle: {
@@ -98,7 +95,7 @@ onMounted(() => {
     },
     yAxis: {
       type: 'category',
-      data: loadTimeData.map(item => item.screen),
+      data: responseTimeData.map(item => item.functionality),
       axisLine: {
         lineStyle: {
           color: '#ddd'
@@ -113,15 +110,14 @@ onMounted(() => {
     },
     series: [
       {
-        name: 'Tiempo de Carga',
+        name: 'Tiempo de Respuesta',
         type: 'bar',
-        data: loadTimeData.map(item => item.loadTime),
+        data: responseTimeData.map(item => item.responseTime),
         itemStyle: {
           color: function(params) {
-            // Colorear según el tiempo de carga
             const value = params.value;
             if (value > 600) return '#ff6b6b'; // Rojo para tiempos lentos
-            if (value > 400) return '#ffd166'; // Amarillo para tiempos medios
+            if (value > 300) return '#ffd166'; // Amarillo para tiempos medios
             return '#06d6a0'; // Verde para tiempos rápidos
           },
           borderRadius: [0, 4, 4, 0]
@@ -134,29 +130,11 @@ onMounted(() => {
           color: '#666'
         }
       }
-    ],
-    // Añadir una línea de referencia para el objetivo de rendimiento
-    markLine: {
-      data: [
-        {
-          name: 'Objetivo',
-          xAxis: 400,
-          lineStyle: {
-            color: '#ffcc00',
-            type: 'dashed'
-          },
-          label: {
-            formatter: 'Objetivo: 400ms',
-            position: 'middle'
-          }
-        }
-      ]
-    }
+    ]
   };
   
   chart.setOption(option);
   
-  // Hacer responsivo
   const resizeHandler = () => {
     if (chart) {
       chart.resize();
@@ -165,11 +143,9 @@ onMounted(() => {
   
   window.addEventListener('resize', resizeHandler);
   
-  // Usar ResizeObserver para detectar cambios en el contenedor
   const resizeObserver = new ResizeObserver(resizeHandler);
   resizeObserver.observe(chartContainer.value);
   
-  // Limpiar al desmontar
   onUnmounted(() => {
     window.removeEventListener('resize', resizeHandler);
     resizeObserver.disconnect();
@@ -184,24 +160,22 @@ onMounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
+  background-color: #ffffff !important;
 }
 
-.chart-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  background-color: #ffffff;
+.white-card {
+  --background: #ffffff !important;
+  background: #ffffff !important;
+}
+
+.white-content {
+  background-color: #ffffff !important;
+  height: 300px;
 }
 
 .chart-container {
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
-  flex: 1;
-  min-height: 0;
+  background-color: #ffffff !important;
 }
 </style>

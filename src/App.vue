@@ -3,12 +3,21 @@
     <ion-split-pane content-id="main-content">
       <ion-menu content-id="main-content" type="overlay" class="custom-menu">
         <ion-content class="menu-content">
-          <ion-list id="inbox-list">
-            <ion-list-header>EasyFCT Dashboard</ion-list-header>
-            <ion-note>Control de Prácticas FP</ion-note>
+          <div class="menu-header">
+            <div class="logo-container">
+              <div class="logo-icon">
+                <ion-icon :icon="schoolOutline" class="logo"></ion-icon>
+              </div>
+              <div class="logo-text">
+                <h2>EasyFCT</h2>
+                <p>Control de Prácticas FP</p>
+              </div>
+            </div>
+          </div>
 
-            <div class="menu-section">
-              <div class="section-title">PANELES</div>
+          <div class="menu-section">
+            <div class="section-title">Paneles</div>
+            <ion-list class="menu-list">
               <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
                 <ion-item 
                   @click="selectedIndex = i" 
@@ -33,8 +42,9 @@
                   </div>
                 </ion-item>
               </ion-menu-toggle>
-            </div>
-          </ion-list>
+            </ion-list>
+          </div>
+        
         </ion-content>
       </ion-menu>
       <ion-router-outlet id="main-content"></ion-router-outlet>
@@ -43,11 +53,13 @@
 </template>
 
 <script setup lang="ts">
-import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
+import { IonApp, IonContent, IonIcon, IonItem, IonList, IonMenu, IonMenuToggle, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
 import { 
   businessOutline, 
   settingsOutline, 
-  analyticsOutline
+  analyticsOutline, 
+  schoolOutline,
+  personCircleOutline 
 } from 'ionicons/icons';
 import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -84,65 +96,80 @@ const updateSelectedIndex = () => {
   }
 };
 
-onMounted(updateSelectedIndex);
-watch(route, updateSelectedIndex);
+onMounted(() => {
+  updateSelectedIndex();
+});
+
+watch(() => route.path, updateSelectedIndex);
 </script>
 
 <style scoped>
 ion-split-pane {
-  --side-max-width: 280px;
+  --side-max-width: 320px;
 }
 
 .custom-menu {
   --background: #ffffff;
+  border-right: 1px solid #e0e0e0;
 }
 
 .menu-content {
-  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+  --background: #ffffff;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
 }
 
-ion-menu.md ion-content {
-  --padding-start: 8px;
-  --padding-end: 8px;
-  --padding-top: 20px;
-  --padding-bottom: 20px;
+.menu-header {
+  background: linear-gradient(135deg, #ffcc00 0%, #ffd633 100%);
+  padding: 24px 20px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-ion-menu.md ion-list {
-  padding: 20px 0;
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-ion-menu.md ion-note {
-  margin-bottom: 30px;
+.logo-icon {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
 }
 
-ion-menu.md ion-list-header,
-ion-menu.md ion-note {
-  padding-left: 10px;
+.logo {
+  font-size: 24px;
+  color: #333;
 }
 
-ion-menu.md ion-list#inbox-list {
-  border-bottom: 1px solid var(--ion-background-color-step-150, #d7d8da);
+.logo-text h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.2;
 }
 
-ion-menu.md ion-list#inbox-list ion-list-header {
-  font-size: 22px;
-  font-weight: 600;
-  min-height: 20px;
-}
-
-ion-note {
-  display: inline-block;
-  font-size: 16px;
-  color: var(--ion-color-medium-shade);
+.logo-text p {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
 }
 
 .menu-section {
-  padding: 20px 0 0 0;
+  padding: 24px 0;
 }
 
 .section-title {
-  padding: 0 10px 16px;
+  padding: 0 20px 16px;
   font-size: 12px;
   font-weight: 600;
   color: #999;
@@ -150,56 +177,50 @@ ion-note {
   letter-spacing: 0.5px;
 }
 
+.menu-list {
+  padding: 0;
+  background: transparent;
+}
+
 .menu-item {
   --background: transparent;
   --background-hover: rgba(255, 204, 0, 0.08);
   --background-activated: rgba(255, 204, 0, 0.12);
   --color: #333;
-  --padding-start: 10px;
-  --padding-end: 10px;
+  --padding-start: 20px;
+  --padding-end: 20px;
   --padding-top: 0;
   --padding-bottom: 0;
   --min-height: 64px;
-  margin: 4px 8px;
-  border-radius: 8px;
+  margin: 4px 16px;
+  border-radius: 12px;
   transition: all 0.3s ease;
   cursor: pointer;
-  position: relative;
 }
 
 .menu-item:hover {
   --background: rgba(255, 204, 0, 0.08);
+  transform: translateX(4px);
 }
 
 .menu-item-selected {
   --background: rgba(255, 204, 0, 0.12);
   --color: #333;
-}
-
-.menu-item-selected::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 24px;
-  background-color: #ffcc00;
-  border-radius: 0 4px 4px 0;
+  box-shadow: 0 2px 8px rgba(255, 204, 0, 0.2);
 }
 
 .menu-item-content {
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 12px;
+  gap: 16px;
 }
 
 .menu-icon-container {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   background-color: rgba(255, 204, 0, 0.1);
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -211,7 +232,7 @@ ion-note {
 }
 
 .menu-icon {
-  font-size: 18px;
+  font-size: 20px;
   color: #666;
   transition: all 0.3s ease;
 }
@@ -250,51 +271,86 @@ ion-note {
   height: 8px;
   background-color: #ffcc00;
   border-radius: 50%;
+  animation: pulse 2s infinite;
 }
 
-ion-menu.ios ion-content {
-  --padding-bottom: 20px;
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 204, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 204, 0, 0);
+  }
 }
 
-ion-menu.ios ion-list {
-  padding: 20px 0 0 0;
+@media (max-width: 768px) {
+  ion-split-pane {
+    --side-max-width: 280px;
+  }
+  
+  .menu-header {
+    padding: 20px 16px;
+  }
+  
+  .menu-item {
+    margin: 4px 12px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+  
+  .menu-footer {
+    padding: 12px 16px;
+  }
 }
 
-ion-menu.ios ion-note {
-  line-height: 24px;
-  margin-bottom: 20px;
+.menu-item {
+  animation: slideInLeft 0.3s ease forwards;
 }
 
-ion-menu.ios ion-item {
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --min-height: 50px;
-}
+.menu-item:nth-child(1) { animation-delay: 0.1s; }
+.menu-item:nth-child(2) { animation-delay: 0.2s; }
+.menu-item:nth-child(3) { animation-delay: 0.3s; }
 
-ion-menu.ios ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
-}
-
-ion-menu.ios ion-item ion-icon {
-  font-size: 24px;
-  color: #73849a;
-}
-
-ion-menu.ios ion-list-header,
-ion-menu.ios ion-note {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-ion-menu.ios ion-note {
-  margin-bottom: 8px;
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .menu-item:hover .menu-icon-container {
+  transform: scale(1.05);
   background-color: rgba(255, 204, 0, 0.2);
 }
 
 .menu-item:hover .menu-icon {
   color: #ffcc00;
+}
+
+.menu-item:active {
+  transform: translateX(2px) scale(0.98);
+}
+
+.menu-item-selected {
+  position: relative;
+}
+
+.menu-item-selected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 24px;
+  background-color: #ffcc00;
+  border-radius: 0 4px 4px 0;
 }
 </style>

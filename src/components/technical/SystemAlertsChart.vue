@@ -1,11 +1,11 @@
 <template>
-  <ion-card class="chart-card">
+  <ion-card class="chart-card white-card">
     <ion-card-header>
-      <ion-card-title>Alertas Técnicas Frecuentes</ion-card-title>
+      <ion-card-title>Alertas Técnicas del Sistema</ion-card-title>
       <ion-card-subtitle>Últimas 24 horas</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content class="chart-content">
-      <div id="alerts-chart" class="chart-container"></div>
+    <ion-card-content class="white-content">
+      <div id="system-alerts-chart"></div>
     </ion-card-content>
   </ion-card>
 </template>
@@ -15,19 +15,18 @@ import { onMounted, onUnmounted } from 'vue';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/vue';
 import ApexCharts from 'apexcharts';
 
-// Datos simulados de alertas técnicas
+// Datos simulados de alertas técnicas específicas de EasyFCT
 const alertsData = [
-  { type: 'API Timeout', count: 42 },
-  { type: 'Conexión Perdida', count: 38 },
-  { type: 'Error de Autenticación', count: 27 },
-  { type: 'Memoria Insuficiente', count: 21 },
-  { type: 'Fallo de Caché', count: 18 },
-  { type: 'Error de Renderizado', count: 15 },
-  { type: 'Excepción no Controlada', count: 12 },
-  { type: 'Timeout de Base de Datos', count: 9 }
+  { type: 'Timeout Base Datos', count: 28 },
+  { type: 'Error Subida Archivos', count: 22 },
+  { type: 'Fallo Autenticación', count: 18 },
+  { type: 'Memoria Servidor Llena', count: 15 },
+  { type: 'API Empresas Lenta', count: 12 },
+  { type: 'Error Notificaciones', count: 9 },
+  { type: 'Backup Fallido', count: 7 },
+  { type: 'SSL Certificado', count: 4 }
 ];
 
-// Ordenar los datos por frecuencia (descendente)
 alertsData.sort((a, b) => b.count - a.count);
 
 let chart = null;
@@ -40,7 +39,7 @@ onMounted(() => {
     }],
     chart: {
       type: 'bar',
-      height: '100%',
+      height: 300,
       toolbar: {
         show: false
       },
@@ -128,15 +127,14 @@ onMounted(() => {
     }
   };
 
-  chart = new ApexCharts(document.querySelector("#alerts-chart"), options);
+  chart = new ApexCharts(document.querySelector("#system-alerts-chart"), options);
   chart.render();
   
-  // Manejar cambios de tamaño
   const resizeHandler = () => {
     if (chart) {
       chart.updateOptions({
         chart: {
-          height: document.querySelector("#alerts-chart").offsetHeight
+          height: document.querySelector("#system-alerts-chart").offsetHeight
         }
       });
     }
@@ -144,13 +142,11 @@ onMounted(() => {
   
   window.addEventListener('resize', resizeHandler);
   
-  // Usar ResizeObserver para detectar cambios en el contenedor
   const resizeObserver = new ResizeObserver(resizeHandler);
-  if (document.querySelector("#alerts-chart")) {
-    resizeObserver.observe(document.querySelector("#alerts-chart").parentElement);
+  if (document.querySelector("#system-alerts-chart")) {
+    resizeObserver.observe(document.querySelector("#system-alerts-chart").parentElement);
   }
   
-  // Limpiar al desmontar
   onUnmounted(() => {
     window.removeEventListener('resize', resizeHandler);
     resizeObserver.disconnect();
@@ -164,25 +160,23 @@ onMounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  border-top: 3px solid #ffcc00;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
+  border-top: 3px solid #ff6b6b;
+  background-color: #ffffff !important;
 }
 
-.chart-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  background-color: #ffffff;
+.white-card {
+  --background: #ffffff !important;
+  background: #ffffff !important;
 }
 
-.chart-container {
+.white-content {
+  background-color: #ffffff !important;
+  height: 300px;
+}
+
+#system-alerts-chart {
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
-  flex: 1;
-  min-height: 0;
+  background-color: #ffffff !important;
 }
 </style>

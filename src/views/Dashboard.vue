@@ -7,7 +7,7 @@
         </ion-buttons>
         <ion-title>
           <div class="title-container">
-            <span>Dashboard de Negocio - QBid FP</span>
+            <span>Dashboard de Negocio - EasyFCT</span>
           </div>
         </ion-title>
         <ion-buttons slot="end">
@@ -21,27 +21,27 @@
       </ion-toolbar>
     </ion-header>
     
-    <ion-content class="dashboard-content">
+    <ion-content class="white-background">
       <div class="dashboard-container">
-        <ion-grid class="dashboard-grid">
-          <ion-row class="dashboard-row">
-            <ion-col size="12" size-md="6" class="chart-col">
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-padding">
+            <ion-col size="12" size-md="6" class="ion-padding-horizontal ion-padding-bottom">
               <PracticesEvolutionChart />
             </ion-col>
-            <ion-col size="12" size-md="6" class="chart-col">
+            <ion-col size="12" size-md="6" class="ion-padding-horizontal ion-padding-bottom">
               <CompanyOffersChart />
             </ion-col>
           </ion-row>
           
-          <ion-row class="dashboard-row">
-            <ion-col size="12" size-md="4" class="chart-col">
-              <StudentDistributionChart />
+          <ion-row class="ion-padding">
+            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
+              <StudentsDistributionChart />
             </ion-col>
-            <ion-col size="12" size-md="4" class="chart-col">
+            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
               <ActiveUsersChart />
             </ion-col>
-            <ion-col size="12" size-md="4" class="chart-col">
-              <SupportRequestsHeatmap />
+            <ion-col size="12" size-md="4" class="ion-padding-horizontal ion-padding-bottom">
+              <SupportHeatmapChart />
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -55,9 +55,9 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, 
 import { notificationsOutline, personCircleOutline } from 'ionicons/icons';
 import PracticesEvolutionChart from '../components/PracticesEvolutionChart.vue';
 import CompanyOffersChart from '../components/CompanyOffersChart.vue';
-import StudentDistributionChart from '../components/StudentDistributionChart.vue';
+import StudentsDistributionChart from '../components/StudentsDistributionChart.vue';
 import ActiveUsersChart from '../components/ActiveUsersChart.vue';
-import SupportRequestsHeatmap from '../components/SupportRequestsHeatmap.vue';
+import SupportHeatmapChart from '../components/SupportHeatmapChart.vue';
 </script>
 
 <style scoped>
@@ -65,14 +65,12 @@ ion-page {
   --background: #ffffff !important;
 }
 
-.dashboard-content {
+ion-content {
   --background: #ffffff !important;
-  --padding-top: 0;
-  --padding-bottom: 0;
-  --padding-start: 0;
-  --padding-end: 0;
-  height: 100%;
-  overflow: hidden;
+}
+
+.white-background {
+  background-color: #ffffff !important;
 }
 
 ion-toolbar {
@@ -87,65 +85,28 @@ ion-toolbar {
 }
 
 .dashboard-container {
-  height: 100%;
-  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
   background-color: #ffffff;
-  overflow: hidden;
 }
 
-.dashboard-grid {
+ion-grid {
   height: 100%;
+  background-color: #ffffff;
+}
+
+ion-row {
   margin: 0;
-  padding: 8px;
+}
+
+ion-col {
   display: flex;
   flex-direction: column;
-}
-
-.dashboard-row {
-  flex: 1;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  min-height: 0;
-}
-
-.chart-col {
-  padding: 4px;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
 }
 
 @media (max-width: 768px) {
-  .dashboard-grid {
-    padding: 4px;
-  }
-  
-  .chart-col {
-    padding: 2px;
-  }
-  
-  .dashboard-row {
-    flex-direction: column;
-  }
-  
-  .dashboard-row:first-child {
-    flex: 1.2;
-  }
-  
-  .dashboard-row:last-child {
-    flex: 1.8;
-  }
-}
-
-@media (min-width: 769px) {
-  .dashboard-row:first-child {
-    flex: 1;
-  }
-  
-  .dashboard-row:last-child {
-    flex: 1;
+  ion-col {
+    padding: 8px;
   }
 }
 </style>

@@ -1,15 +1,15 @@
 <template>
-  <ion-card class="chart-card">
+  <ion-card class="chart-card white-card">
     <ion-card-header>
-      <ion-card-title>Tasa de Errores por Versión</ion-card-title>
-      <ion-card-subtitle>Gráfico personalizado sin librerías</ion-card-subtitle>
+      <ion-card-title>Errores del Sistema de Prácticas</ion-card-title>
+      <ion-card-subtitle>Tasa de errores por módulo</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content class="chart-content">
+    <ion-card-content class="white-content">
       <div class="canvas-container">
         <canvas ref="chartCanvas" width="800" height="400"></canvas>
-        <div v-if="hoveredVersion" class="tooltip" :style="tooltipStyle">
-          <div class="tooltip-title">Versión {{ hoveredVersion.version }}</div>
-          <div class="tooltip-value">{{ hoveredVersion.errorRate.toFixed(2) }}% errores</div>
+        <div v-if="hoveredModule" class="tooltip" :style="tooltipStyle">
+          <div class="tooltip-title">{{ hoveredModule.module }}</div>
+          <div class="tooltip-value">{{ hoveredModule.errorRate.toFixed(2) }}% errores</div>
         </div>
       </div>
     </ion-card-content>
@@ -21,30 +21,26 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/vue';
 
 const chartCanvas = ref(null);
-const hoveredVersion = ref(null);
+const hoveredModule = ref(null);
 const tooltipStyle = ref({
   left: '0px',
   top: '0px'
 });
 
-// Datos simulados de errores por versión
+// Datos simulados de errores por módulo del sistema EasyFCT
 const errorData = [
-  { version: '1.0.0', errorRate: 4.2 },
-  { version: '1.1.0', errorRate: 3.8 },
-  { version: '1.2.0', errorRate: 2.9 },
-  { version: '1.3.0', errorRate: 3.1 },
-  { version: '1.4.0', errorRate: 2.5 },
-  { version: '1.5.0', errorRate: 1.8 },
-  { version: '1.6.0', errorRate: 1.2 },
-  { version: '1.7.0', errorRate: 0.9 },
-  { version: '1.8.0', errorRate: 0.7 },
-  { version: '1.9.0', errorRate: 0.5 }
+  { module: 'Gestión Estudiantes', errorRate: 0.8 },
+  { module: 'Portal Empresas', errorRate: 1.2 },
+  { module: 'Asignación Prácticas', errorRate: 0.5 },
+  { module: 'Seguimiento', errorRate: 0.9 },
+  { module: 'Evaluaciones', errorRate: 0.3 },
+  { module: 'Comunicaciones', errorRate: 1.5 },
+  { module: 'Reportes', errorRate: 0.7 },
+  { module: 'Autenticación', errorRate: 0.2 }
 ];
 
-// Coordenadas de los puntos en el gráfico
 let pointCoordinates = [];
 
-// Función para dibujar el gráfico
 const drawChart = () => {
   const canvas = chartCanvas.value;
   if (!canvas) return;
@@ -53,45 +49,38 @@ const drawChart = () => {
   const width = canvas.width;
   const height = canvas.height;
   
-  // Limpiar el canvas con fondo blanco
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, width, height);
+  ctx.clearRect(0, 0, width, height);
   
-  // Configuración del gráfico
-  const padding = { top: 20, right: 30, bottom: 40, left: 60 };
+  const padding = { top: 20, right: 30, bottom: 60, left: 80 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
   
-  // Encontrar el valor máximo para escalar el eje Y
   const maxErrorRate = Math.max(...errorData.map(d => d.errorRate)) * 1.2;
   
-  // Función para convertir valores a coordenadas
   const scaleX = (index) => padding.left + (index / (errorData.length - 1)) * chartWidth;
   const scaleY = (value) => height - padding.bottom - (value / maxErrorRate) * chartHeight;
   
-  // Dibujar el eje X
+  // Dibujar ejes
   ctx.beginPath();
   ctx.moveTo(padding.left, height - padding.bottom);
   ctx.lineTo(width - padding.right, height - padding.bottom);
-  ctx.strokeStyle = '#999';
+  ctx.strokeStyle = '#ddd';
   ctx.lineWidth = 1;
   ctx.stroke();
   
-  // Dibujar el eje Y
   ctx.beginPath();
   ctx.moveTo(padding.left, padding.top);
   ctx.lineTo(padding.left, height - padding.bottom);
-  ctx.strokeStyle = '#999';
+  ctx.strokeStyle = '#ddd';
   ctx.lineWidth = 1;
   ctx.stroke();
   
-  // Dibujar líneas de cuadrícula horizontales
+  // Líneas de cuadrícula
   const yTicks = 5;
   for (let i = 0; i <= yTicks; i++) {
     const y = padding.top + (chartHeight / yTicks) * i;
     const value = maxErrorRate - (i / yTicks) * maxErrorRate;
     
-    // Línea de cuadrícula
     ctx.beginPath();
     ctx.moveTo(padding.left, y);
     ctx.lineTo(width - padding.right, y);
@@ -99,7 +88,6 @@ const drawChart = () => {
     ctx.lineWidth = 1;
     ctx.stroke();
     
-    // Etiqueta del eje Y
     ctx.fillStyle = '#666';
     ctx.font = '12px Arial';
     ctx.textAlign = 'right';
@@ -107,24 +95,26 @@ const drawChart = () => {
     ctx.fillText(value.toFixed(1) + '%', padding.left - 10, y);
   }
   
-  // Dibujar etiquetas del eje X (versiones)
+  // Etiquetas del eje X
   errorData.forEach((data, index) => {
     const x = scaleX(index);
     const y = height - padding.bottom;
     
-    // Etiqueta del eje X
+    ctx.save();
+    ctx.translate(x, y + 15);
+    ctx.rotate(-Math.PI / 4);
     ctx.fillStyle = '#666';
-    ctx.font = '12px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.fillText(data.version, x, y + 10);
+    ctx.font = '11px Arial';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(data.module, 0, 0);
+    ctx.restore();
   });
   
-  // Dibujar el área bajo la curva
+  // Área bajo la curva
   ctx.beginPath();
   ctx.moveTo(scaleX(0), height - padding.bottom);
   
-  // Guardar las coordenadas de los puntos para la interactividad
   pointCoordinates = [];
   
   errorData.forEach((data, index) => {
@@ -137,22 +127,19 @@ const drawChart = () => {
       ctx.lineTo(x, y);
     }
     
-    // Guardar coordenadas
     pointCoordinates.push({ x, y, data });
   });
   
-  // Completar el área
   ctx.lineTo(scaleX(errorData.length - 1), height - padding.bottom);
   ctx.closePath();
   
-  // Rellenar el área
   const gradient = ctx.createLinearGradient(0, padding.top, 0, height - padding.bottom);
-  gradient.addColorStop(0, 'rgba(255, 204, 0, 0.7)');
-  gradient.addColorStop(1, 'rgba(255, 204, 0, 0.1)');
+  gradient.addColorStop(0, 'rgba(255, 107, 107, 0.7)');
+  gradient.addColorStop(1, 'rgba(255, 107, 107, 0.1)');
   ctx.fillStyle = gradient;
   ctx.fill();
   
-  // Dibujar la línea
+  // Línea principal
   ctx.beginPath();
   errorData.forEach((data, index) => {
     const x = scaleX(index);
@@ -164,27 +151,27 @@ const drawChart = () => {
       ctx.lineTo(x, y);
     }
   });
-  ctx.strokeStyle = '#ffcc00';
+  ctx.strokeStyle = '#ff6b6b';
   ctx.lineWidth = 3;
   ctx.stroke();
   
-  // Dibujar puntos
+  // Puntos
   errorData.forEach((data, index) => {
     const x = scaleX(index);
     const y = scaleY(data.errorRate);
     
     ctx.beginPath();
     ctx.arc(x, y, 6, 0, Math.PI * 2);
-    ctx.fillStyle = '#ffcc00';
+    ctx.fillStyle = '#ff6b6b';
     ctx.fill();
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 2;
     ctx.stroke();
   });
   
-  // Título del eje Y
+  // Títulos de ejes
   ctx.save();
-  ctx.translate(padding.left - 40, height / 2);
+  ctx.translate(padding.left - 50, height / 2);
   ctx.rotate(-Math.PI / 2);
   ctx.fillStyle = '#666';
   ctx.font = '14px Arial';
@@ -192,14 +179,12 @@ const drawChart = () => {
   ctx.fillText('Tasa de Errores (%)', 0, 0);
   ctx.restore();
   
-  // Título del eje X
   ctx.fillStyle = '#666';
   ctx.font = '14px Arial';
   ctx.textAlign = 'center';
-  ctx.fillText('Versión de la App', width / 2, height - 5);
+  ctx.fillText('Módulos del Sistema', width / 2, height - 5);
 };
 
-// Función para manejar el movimiento del ratón
 const handleMouseMove = (event) => {
   const canvas = chartCanvas.value;
   if (!canvas) return;
@@ -208,12 +193,11 @@ const handleMouseMove = (event) => {
   const mouseX = event.clientX - rect.left;
   const mouseY = event.clientY - rect.top;
   
-  // Comprobar si el ratón está sobre algún punto
   let found = false;
   for (const point of pointCoordinates) {
     const distance = Math.sqrt(Math.pow(mouseX - point.x, 2) + Math.pow(mouseY - point.y, 2));
     if (distance < 20) {
-      hoveredVersion.value = point.data;
+      hoveredModule.value = point.data;
       tooltipStyle.value = {
         left: `${point.x + 10}px`,
         top: `${point.y - 40}px`
@@ -224,11 +208,10 @@ const handleMouseMove = (event) => {
   }
   
   if (!found) {
-    hoveredVersion.value = null;
+    hoveredModule.value = null;
   }
 };
 
-// Función para manejar el cambio de tamaño
 const handleResize = () => {
   const canvas = chartCanvas.value;
   if (!canvas) return;
@@ -236,36 +219,28 @@ const handleResize = () => {
   const container = canvas.parentElement;
   const ratio = window.devicePixelRatio || 1;
   
-  // Ajustar el tamaño del canvas al contenedor
   canvas.width = container.clientWidth * ratio;
   canvas.height = container.clientHeight * ratio;
   
-  // Escalar el contexto
   const ctx = canvas.getContext('2d');
   ctx.scale(ratio, ratio);
   
-  // Ajustar el estilo del canvas
   canvas.style.width = container.clientWidth + 'px';
   canvas.style.height = container.clientHeight + 'px';
   
-  // Redibujar el gráfico
   drawChart();
 };
 
 onMounted(() => {
-  // Inicializar el canvas
   const canvas = chartCanvas.value;
   if (canvas) {
     canvas.addEventListener('mousemove', handleMouseMove);
     
-    // Configurar ResizeObserver para manejar cambios de tamaño
     const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(canvas.parentElement);
     
-    // Dibujar el gráfico inicial
     handleResize();
     
-    // Limpiar al desmontar
     onUnmounted(() => {
       canvas.removeEventListener('mousemove', handleMouseMove);
       resizeObserver.disconnect();
@@ -277,27 +252,25 @@ onMounted(() => {
 <style scoped>
 .chart-card {
   height: 100%;
-  border-top: 3px solid #ffcc00;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
+  border-top: 3px solid #ff6b6b;
+  background-color: #ffffff !important;
 }
 
-.chart-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  background-color: #ffffff;
+.white-card {
+  --background: #ffffff !important;
+  background: #ffffff !important;
+}
+
+.white-content {
+  background-color: #ffffff !important;
+  height: 300px;
 }
 
 .canvas-container {
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
-  flex: 1;
-  min-height: 0;
+  background-color: #ffffff !important;
 }
 
 canvas {
@@ -306,13 +279,12 @@ canvas {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
 }
 
 .tooltip {
   position: absolute;
   background-color: rgba(255, 255, 255, 0.95);
-  border: 1px solid #ffcc00;
+  border: 1px solid #ff6b6b;
   border-radius: 8px;
   padding: 8px 12px;
   pointer-events: none;

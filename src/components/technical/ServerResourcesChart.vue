@@ -1,10 +1,10 @@
 <template>
-  <ion-card class="chart-card">
+  <ion-card class="chart-card white-card">
     <ion-card-header>
-      <ion-card-title>Consumo de Recursos</ion-card-title>
-      <ion-card-subtitle>CPU, RAM y Batería</ion-card-subtitle>
+      <ion-card-title>Consumo de Recursos del Servidor</ion-card-title>
+      <ion-card-subtitle>CPU, RAM y Almacenamiento</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content class="chart-content">
+    <ion-card-content class="white-content">
       <canvas ref="chartCanvas"></canvas>
     </ion-card-content>
   </ion-card>
@@ -19,37 +19,37 @@ const chartCanvas = ref(null);
 let chart = null;
 let resizeObserver = null;
 
-// Datos simulados de consumo de recursos para diferentes dispositivos
+// Datos simulados de consumo de recursos para diferentes servidores de EasyFCT
 const resourceData = [
   {
-    label: 'iPhone 13',
+    label: 'Servidor Web',
+    cpu: 45,
+    ram: 62,
+    storage: 38
+  },
+  {
+    label: 'Base de Datos',
+    cpu: 68,
+    ram: 78,
+    storage: 55
+  },
+  {
+    label: 'Servidor Archivos',
+    cpu: 25,
+    ram: 40,
+    storage: 82
+  },
+  {
+    label: 'API Gateway',
+    cpu: 35,
+    ram: 48,
+    storage: 25
+  },
+  {
+    label: 'Servidor Backup',
     cpu: 15,
-    ram: 22,
-    battery: 8
-  },
-  {
-    label: 'Samsung S21',
-    cpu: 18,
-    ram: 25,
-    battery: 10
-  },
-  {
-    label: 'Pixel 6',
-    cpu: 16,
-    ram: 20,
-    battery: 9
-  },
-  {
-    label: 'Xiaomi Mi 11',
-    cpu: 20,
-    ram: 28,
-    battery: 12
-  },
-  {
-    label: 'iPhone 12',
-    cpu: 17,
-    ram: 24,
-    battery: 9
+    ram: 30,
+    storage: 90
   }
 ];
 
@@ -59,10 +59,10 @@ onMounted(() => {
   chart = new Chart(ctx, {
     type: 'radar',
     data: {
-      labels: ['CPU (%)', 'RAM (MB)', 'Batería (%/h)'],
-      datasets: resourceData.map((device, index) => ({
-        label: device.label,
-        data: [device.cpu, device.ram, device.battery],
+      labels: ['CPU (%)', 'RAM (%)', 'Almacenamiento (%)'],
+      datasets: resourceData.map((server, index) => ({
+        label: server.label,
+        data: [server.cpu, server.ram, server.storage],
         backgroundColor: `rgba(255, 204, 0, ${0.7 - index * 0.1})`,
         borderColor: index === 0 ? '#ffcc00' : `rgba(${51 + index * 40}, ${51 + index * 40}, ${51 + index * 40}, 0.8)`,
         borderWidth: 2,
@@ -87,7 +87,7 @@ onMounted(() => {
           }
         },
         tooltip: {
-          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
           titleColor: '#333',
           bodyColor: '#666',
           borderColor: '#ffcc00',
@@ -100,14 +100,7 @@ onMounted(() => {
               const value = context.raw;
               const metric = context.chart.data.labels[context.dataIndex];
               
-              if (metric.includes('CPU')) {
-                return `${label}: ${value}% de CPU`;
-              } else if (metric.includes('RAM')) {
-                return `${label}: ${value} MB de RAM`;
-              } else if (metric.includes('Batería')) {
-                return `${label}: ${value}% de batería por hora`;
-              }
-              return `${label}: ${value}`;
+              return `${label}: ${value}% de ${metric.split(' ')[0]}`;
             }
           }
         }
@@ -115,10 +108,10 @@ onMounted(() => {
       scales: {
         r: {
           min: 0,
-          max: 30,
+          max: 100,
           ticks: {
-            stepSize: 5,
-            backdropColor: 'rgba(255, 255, 255, 0.8)',
+            stepSize: 20,
+            backdropColor: 'transparent',
             color: '#666'
           },
           grid: {
@@ -139,7 +132,6 @@ onMounted(() => {
     }
   });
   
-  // Usar ResizeObserver para manejar cambios de tamaño
   resizeObserver = new ResizeObserver(() => {
     if (chart) {
       chart.resize();
@@ -165,22 +157,24 @@ onUnmounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
+  background-color: #ffffff !important;
 }
 
-.chart-content {
-  flex: 1;
+.white-card {
+  --background: #ffffff !important;
+  background: #ffffff !important;
+}
+
+.white-content {
+  background-color: #ffffff !important;
+  height: 300px;
   display: flex;
-  flex-direction: column;
-  min-height: 0;
-  background-color: #ffffff;
+  align-items: center;
+  justify-content: center;
 }
 
 canvas {
-  flex: 1;
-  min-height: 0;
-  background-color: #ffffff;
+  max-width: 100%;
+  max-height: 100%;
 }
 </style>

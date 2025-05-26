@@ -1,10 +1,10 @@
 <template>
-  <ion-card class="chart-card">
+  <ion-card class="chart-card white-card">
     <ion-card-header>
-      <ion-card-title>Mapa de Calor de Búsquedas</ion-card-title>
+      <ion-card-title>Mapa de Consultas de Soporte</ion-card-title>
       <ion-card-subtitle>Por hora y día de la semana</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content class="chart-content">
+    <ion-card-content class="white-content">
       <div ref="chartContainer" class="chart-container"></div>
     </ion-card-content>
   </ion-card>
@@ -23,68 +23,51 @@ echarts.use([HeatmapChart, TooltipComponent, VisualMapComponent, GridComponent, 
 const chartContainer = ref(null);
 let chart = null;
 
-// Generar datos simulados para el mapa de calor
 const generateHeatmapData = () => {
-  const hours = ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'];
-  const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  const hours = ['8h', '10h', '12h', '14h', '16h', '18h'];
+  const days = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie'];
   
   const data = [];
   for (let i = 0; i < days.length; i++) {
     for (let j = 0; j < hours.length; j++) {
-      // Simular patrones realistas:
-      // - Más búsquedas en horario laboral (8-18h)
-      // - Más búsquedas en días laborables
-      // - Pico en lunes por la mañana y viernes por la tarde
       let baseValue = 0;
       
-      // Horario laboral tiene más búsquedas
-      if (j >= 4 && j <= 8) {
+      if (j >= 2 && j <= 4) {
         baseValue += 30;
       }
       
-      // Días laborables tienen más búsquedas
       if (i < 5) {
         baseValue += 20;
       }
       
-      // Pico en lunes por la mañana
-      if (i === 0 && j === 4) {
+      if (i === 0 && j === 2) {
         baseValue += 40;
       }
       
-      // Pico en viernes por la tarde
-      if (i === 4 && j === 8) {
+      if (i === 4 && j === 4) {
         baseValue += 50;
       }
       
-      // Añadir aleatoriedad
       const value = baseValue + Math.round(Math.random() * 30);
-      
       data.push([j, i, value]);
     }
   }
   
-  return {
-    hours,
-    days,
-    data
-  };
+  return { hours, days, data };
 };
 
 onMounted(() => {
   const { hours, days, data } = generateHeatmapData();
-  chart = echarts.init(chartContainer.value, null, {
-    backgroundColor: '#ffffff'
-  });
+  chart = echarts.init(chartContainer.value);
   
   const option = {
     backgroundColor: '#ffffff',
     tooltip: {
       position: 'top',
       formatter: function (params) {
-        return `${days[params.value[1]]}, ${hours[params.value[0]]}<br>Búsquedas: ${params.value[2]}`;
+        return `${days[params.value[1]]}, ${hours[params.value[0]]}<br>Consultas: ${params.value[2]}`;
       },
-      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
       borderColor: '#ffcc00',
       borderWidth: 1,
       textStyle: {
@@ -106,15 +89,7 @@ onMounted(() => {
       },
       axisLabel: {
         fontSize: 10,
-        color: '#666',
-        interval: 1,
-        rotate: 45
-      },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: '#ddd'
-        }
+        color: '#666'
       }
     },
     yAxis: {
@@ -125,12 +100,6 @@ onMounted(() => {
       },
       axisLabel: {
         color: '#666'
-      },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: '#ddd'
-        }
       }
     },
     visualMap: {
@@ -146,7 +115,7 @@ onMounted(() => {
       }
     },
     series: [{
-      name: 'Búsquedas',
+      name: 'Consultas',
       type: 'heatmap',
       data: data,
       label: {
@@ -163,7 +132,6 @@ onMounted(() => {
   
   chart.setOption(option);
   
-  // Hacer responsivo
   const resizeHandler = () => {
     if (chart) {
       chart.resize();
@@ -172,11 +140,9 @@ onMounted(() => {
   
   window.addEventListener('resize', resizeHandler);
   
-  // Usar ResizeObserver para detectar cambios en el contenedor
   const resizeObserver = new ResizeObserver(resizeHandler);
   resizeObserver.observe(chartContainer.value);
   
-  // Limpiar al desmontar
   onUnmounted(() => {
     window.removeEventListener('resize', resizeHandler);
     resizeObserver.disconnect();
@@ -191,24 +157,22 @@ onMounted(() => {
 .chart-card {
   height: 100%;
   border-top: 3px solid #ffcc00;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
+  background-color: #ffffff !important;
 }
 
-.chart-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  background-color: #ffffff;
+.white-card {
+  --background: #ffffff !important;
+  background: #ffffff !important;
+}
+
+.white-content {
+  background-color: #ffffff !important;
+  height: 300px;
 }
 
 .chart-container {
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
-  flex: 1;
-  min-height: 0;
+  background-color: #ffffff !important;
 }
 </style>
