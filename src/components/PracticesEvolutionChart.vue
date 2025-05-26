@@ -23,7 +23,7 @@ const generatePracticesData = () => {
   const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
   const practicesAssigned = [45, 52, 38, 67, 73, 81];
   const practicesCompleted = [42, 48, 35, 61, 68, 75];
-  const kpiTarget = [77, 77, 77, 77, 77, 77]; // KPI: 95% de 81 prácticas = ~77
+  const kpiTarget = [77, 77, 77, 77, 77, 77]; // KPI: 95% de 81 prácticas = 77
 
   return { months, practicesAssigned, practicesCompleted, kpiTarget };
 };
@@ -43,7 +43,7 @@ onMounted(() => {
           backgroundColor: 'rgba(37, 99, 235, 0.1)',
           borderWidth: 3,
           tension: 0.3,
-          fill: true,
+          fill: false,
           pointBackgroundColor: '#2563eb',
           pointRadius: 5
         },

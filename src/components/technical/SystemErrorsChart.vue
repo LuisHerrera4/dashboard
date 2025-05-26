@@ -130,7 +130,7 @@ const drawChart = () => {
     ctx.restore();
   });
   
-  // Área bajo la curva
+  // Area bajo la curva
   ctx.beginPath();
   ctx.moveTo(scaleX(0), height - padding.bottom);
   

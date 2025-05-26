@@ -23,7 +23,6 @@ echarts.use([BarChart, TooltipComponent, LegendComponent, GridComponent, CanvasR
 const chartContainer = ref(null);
 let chart = null;
 
-// Datos simulados de tiempos de respuesta por funcionalidad de EasyFCT
 const responseTimeData = [
   { functionality: 'Login Estudiantes', responseTime: 180 },
   { functionality: 'Portal Empresas', responseTime: 320 },
@@ -37,7 +36,7 @@ const responseTimeData = [
   { functionality: 'Calendario', responseTime: 220 }
 ];
 
-const kpiTarget = 200; // KPI: 200ms máximo
+const kpiTarget = 200; 
 
 responseTimeData.sort((a, b) => b.responseTime - a.responseTime);
 

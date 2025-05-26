@@ -19,7 +19,6 @@ const chartCanvas = ref(null);
 let chart = null;
 let resizeObserver = null;
 
-// Datos simulados de consumo de recursos para diferentes servidores de EasyFCT
 const resourceData = [
   {
     label: 'Servidor Web',

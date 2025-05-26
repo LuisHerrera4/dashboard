@@ -15,7 +15,6 @@ import { onMounted, onUnmounted } from 'vue';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/vue';
 import ApexCharts from 'apexcharts';
 
-// Datos simulados de alertas técnicas específicas de EasyFCT
 const alertsData = [
   { type: 'Timeout Base Datos', count: 28 },
   { type: 'Error Subida Archivos', count: 22 },
